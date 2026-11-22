@@ -1,0 +1,156 @@
+.food-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  transition: transform 0.2s, box-shadow 0.2s;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 30px rgba(23, 58, 47, 0.12);
+  }
+
+  &.unavailable {
+    .photo { filter: grayscale(0.8); opacity: 0.7; }
+    .title-row h3 { color: var(--muted); }
+  }
+
+  .photo {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: var(--line);
+
+    .badges {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .like-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border: none;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.95);
+      color: #1d2a25;
+      cursor: pointer;
+
+      &:hover { color: #cf4a1a; }
+      &.liked { color: #cf4a1a; }
+    }
+  }
+
+  .info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 10px;
+    padding: 16px;
+
+    .title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+
+      h3 {
+        margin: 0;
+        font-size: 18px;
+        line-height: 1.25;
+      }
+
+      .price {
+        color: var(--accent);
+        font-family: var(--font-head);
+        font-size: 18px;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      color: var(--muted);
+      font-size: 12.5px;
+
+      li {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+    }
+
+    .bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: auto;
+      padding-top: 12px;
+      border-top: 1px solid var(--line);
+
+      .rating {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 13px;
+        font-weight: 600;
+
+        svg { color: var(--star); }
+      }
+
+      .add-btn {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 18px;
+        border: none;
+        border-radius: 999px;
+        background: var(--btn);
+        color: var(--on-btn);
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+
+        &:hover:not(:disabled) { filter: brightness(1.2); }
+        &:disabled { opacity: 0.45; cursor: not-allowed; }
+      }
+    }
+  }
+
+  /* veg / non-veg marker drawn with CSS */
+  .veg-mark {
+    display: inline-grid;
+    place-items: center;
+    width: 14px;
+    height: 14px;
+    border: 1.5px solid;
+    border-radius: 3px;
+
+    &::after {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    &.veg    { color: #2e8b57; }
+    &.nonveg { color: #c0392b; }
+  }
+}

@@ -1,0 +1,36 @@
+/* Rounded search box that sits inside the dark hero */
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 580px;
+  margin-top: 28px;
+  padding: 6px 10px 6px 22px;
+  border-radius: 999px;
+  background: #fff;
+  color: #7c8a82;
+
+  input {
+    flex: 1;
+    padding: 12px 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: #1d2a25;
+    font-size: 15px;
+  }
+
+  .clear {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 50%;
+    background: #eee;
+    color: #444;
+    cursor: pointer;
+
+    &:hover { background: #ddd; }
+  }
+}

@@ -1,0 +1,60 @@
+.admin-layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  min-height: 100vh;
+
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 28px 20px;
+    background: var(--green);
+    color: #fff;
+
+    .brand {
+      margin: 0;
+      font-family: var(--font-head);
+      font-size: 18px;
+      letter-spacing: 0.08em;
+    }
+
+    nav {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      gap: 4px;
+
+      a {
+        padding: 10px 14px;
+        border-radius: 10px;
+        color: rgba(255, 255, 255, 0.75);
+        font-size: 14px;
+        text-decoration: none;
+
+        &:hover { background: rgba(255, 255, 255, 0.08); color: #fff; }
+        &.active { background: rgba(255, 255, 255, 0.14); color: #fff; font-weight: 600; }
+      }
+    }
+
+    .logout {
+      padding: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      border-radius: 999px;
+      background: transparent;
+      color: #fff;
+      cursor: pointer;
+
+      &:hover { background: rgba(255, 255, 255, 0.1); }
+    }
+  }
+
+  .content {
+    padding: 40px;
+  }
+
+  @media (max-width: 800px) {
+    grid-template-columns: 1fr;
+
+    .content { padding: 24px 16px; }
+  }
+}

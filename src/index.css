@@ -1,0 +1,57 @@
+/* =========================================================
+   GLOBAL BASE: colours, fonts, reset. Loaded once in main.jsx.
+   ========================================================= */
+:root {
+  --bg: #f2eadb;
+  --surface: #fbf7ee;
+  --green: #173a2f;
+  --green-2: #235443;
+  --ink: #1d2a25;
+  --muted: #7c8a82;
+  --line: #e4d9c5;
+  --accent: #cf4a1a;
+  --on-accent: #ffffff;
+  --btn: #173a2f;
+  --on-btn: #ffffff;
+  --star: #e9a319;
+  --glow: rgba(207, 74, 26, 0.35);
+  --maxw: 1180px;
+  --font-head: "Playfair Display", Georgia, serif;
+  --font-body: "Inter", system-ui, sans-serif;
+}
+
+/* Optional dark theme: add data-theme="dark" on the <html> tag */
+[data-theme="dark"] {
+  --bg: #07120e;
+  --surface: #0f1f19;
+  --green: #0c1f19;
+  --green-2: #123629;
+  --ink: #e9f3ec;
+  --muted: #8fa89b;
+  --line: rgba(255, 255, 255, 0.12);
+  --accent: #b8f45a;
+  --on-accent: #0b1a12;
+  --btn: #b8f45a;
+  --on-btn: #0b1a12;
+  --glow: rgba(184, 244, 90, 0.25);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 { font-family: var(--font-head); }
+
+button, input, select { font: inherit; }
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}

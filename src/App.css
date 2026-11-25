@@ -1,0 +1,100 @@
+/* =========================================================
+   APP-WIDE SHARED STYLES
+   Container, eyebrow label, empty message, buttons, hero band.
+   ========================================================= */
+.container {
+  max-width: var(--maxw);
+  margin: auto;
+  padding: 40px;
+
+  @media (max-width: 700px) {
+    padding: 24px 16px;
+  }
+}
+
+.eyebrow {
+  margin: 0 0 10px;
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.empty {
+  padding: 56px 0;
+  text-align: center;
+  color: var(--muted);
+  font-size: 17px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px 28px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter 0.15s, background 0.15s, color 0.15s;
+
+  &.small { padding: 10px 20px; font-size: 14px; }
+
+  &.primary {
+    background: var(--accent);
+    color: var(--on-accent);
+
+    &:hover { filter: brightness(1.1); }
+  }
+
+  &.ghost {
+    background: transparent;
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.5);
+
+    &:hover { background: rgba(255, 255, 255, 0.1); }
+  }
+
+  &.ghost-dark {
+    background: transparent;
+    color: var(--ink);
+    border-color: var(--ink);
+
+    &:hover { background: var(--ink); color: var(--surface); }
+  }
+}
+
+.hero {
+  padding: 72px 0 80px;
+  background: var(--green);
+  color: #fff;
+
+  .inner {
+    max-width: var(--maxw);
+    margin: auto;
+    padding: 0 40px;
+  }
+
+  h1 {
+    margin: 0 0 14px;
+    font-size: clamp(34px, 5vw, 54px);
+    line-height: 1.1;
+    font-weight: 700;
+  }
+
+  .lead {
+    max-width: 540px;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 17px;
+  }
+
+  @media (max-width: 700px) {
+    padding: 48px 0 56px;
+
+    .inner { padding: 0 16px; }
+  }
+}

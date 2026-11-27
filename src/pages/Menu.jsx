@@ -1,92 +1,94 @@
-import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import SearchBar from "../components/SearchBar";
-import FilterBar from "../components/FilterBar";
-import FilterSidebar from "../components/FilterSidebar";
-import PopularRow from "../components/PopularRow";
+import CategoryRail from "../components/CategoryRail";
+import PromoBanner from "../components/PromoBanner";
 import FoodGrid from "../components/FoodGrid";
+import { StarIcon } from "../components/Icons";
 import { foods } from "../data/foods";
 import "./Menu.css";
 
-// calculated once: these do not depend on any state
 const categories = [...new Set(foods.map((f) => f.category))];
-const priceLimit = Math.ceil(Math.max(...foods.map((f) => f.price)) / 10) * 10;
-const popular = [...foods].sort((a, b) => b.rating - a.rating).slice(0, 5);
 
 function Menu({ onAdd }) {
-  // ---------- STATE: one value per filter ----------
-  const [search, setSearch] = useState("");
-  const [category, setCategory] = useState("All");
-  const [sort, setSort] = useState("popular");
-  const [maxPrice, setMaxPrice] = useState(priceLimit);
-  const [spice, setSpice] = useState("All");
-  const [diet, setDiet] = useState("all");
+  const [params, setParams] = useSearchParams();
 
-  // ---------- DERIVED: filtered and sorted list ----------
+  // the URL is the single source of truth for every filter
+  const search = params.get("search") || "";
+  const category = params.get("category") || "All";
+  const diet = params.get("diet") || "all"; // all | veg | nonveg
+  const special = params.get("special") === "1";
+
+  function setParam(key, value) {
+    const next = new URLSearchParams(params);
+    if (value) next.set(key, value);
+    else next.delete(key);
+    setParams(next, { replace: true });
+  }
+
   const visible = foods
     .filter((f) => `${f.name} ${f.category}`.toLowerCase().includes(search.toLowerCase()))
     .filter((f) => category === "All" || f.category === category)
-    .filter((f) => f.price <= maxPrice)
-    .filter((f) => spice === "All" || f.spice === spice)
     .filter((f) => diet === "all" || (diet === "veg" ? f.isVeg : !f.isVeg))
-    .sort((a, b) => {
-      if (sort === "price-low") return a.price - b.price;
-      if (sort === "price-high") return b.price - a.price;
-      return b.rating - a.rating;
-    });
-
-  function clearFilters() {
-    setSearch("");
-    setCategory("All");
-    setSort("popular");
-    setMaxPrice(priceLimit);
-    setSpice("All");
-    setDiet("all");
-  }
+    .filter((f) => !special || f.tag === "Special");
 
   return (
-    <>
-      <section className="hero">
-        <div className="inner">
-          <p className="eyebrow">Full menu</p>
-          <h1>Everything we cook,<br />in one place.</h1>
-          <p className="lead">
-            Filter by category, diet or spice level and find your next favourite dish.
-          </p>
+    <div className="container menu-page">
+      <h1 className="page-title">Menu</h1>
 
-          <SearchBar search={search} onSearchChange={setSearch} />
-        </div>
-      </section>
+      <div className="layout">
+        <CategoryRail
+          categories={categories}
+          active={category}
+          onChange={(name) => setParam("category", name === "All" ? "" : name)}
+        />
 
-      <FilterBar
-        categories={categories}
-        category={category}
-        onCategoryChange={setCategory}
-        sort={sort}
-        onSortChange={setSort}
-      />
-
-      <div className="container menu-page">
-        <PopularRow foods={popular} onAdd={onAdd} />
-
-        <div className="menu-layout">
-          <FilterSidebar
-            priceLimit={priceLimit}
-            maxPrice={maxPrice}
-            onMaxPriceChange={setMaxPrice}
-            spice={spice}
-            onSpiceChange={setSpice}
-            diet={diet}
-            onDietChange={setDiet}
-            onClear={clearFilters}
+        <div className="content">
+          <SearchBar
+            value={search}
+            onChange={(value) => setParam("search", value)}
+            placeholder="Search dishes or categories"
           />
 
-          <div>
-            <p className="count">Showing {visible.length} of {foods.length} dishes</p>
-            <FoodGrid foods={visible} onAdd={onAdd} />
+          <PromoBanner
+            title="Flat 40% OFF"
+            subtitle="on all Pizza"
+            highlight="40%"
+            buttonText="Order Now"
+            onClick={() => setParam("category", "Pizza")}
+          />
+
+          <div className="chips">
+            <button
+              className={diet === "veg" ? "chip active" : "chip"}
+              onClick={() => setParam("diet", diet === "veg" ? "" : "veg")}
+            >
+              <span className="dot green" />
+              Veg
+            </button>
+
+            <button
+              className={diet === "nonveg" ? "chip active" : "chip"}
+              onClick={() => setParam("diet", diet === "nonveg" ? "" : "nonveg")}
+            >
+              <span className="dot orange" />
+              Non-Veg
+            </button>
+
+            <button
+              className={special ? "chip active" : "chip"}
+              onClick={() => setParam("special", special ? "" : "1")}
+            >
+              <StarIcon size={14} />
+              Special
+            </button>
           </div>
+
+          <p className="count">Showing {visible.length} of {foods.length} dishes</p>
+
+          <FoodGrid foods={visible} onAdd={onAdd} />
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

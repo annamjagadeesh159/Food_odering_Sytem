@@ -1,0 +1,27 @@
+.stepper {
+  display: inline-flex;
+  align-items: center;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+
+  button {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 34px;
+    border: none;
+    background: transparent;
+    color: var(--primary);
+
+    &:hover { background: var(--primary-soft); }
+  }
+
+  span {
+    min-width: 30px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+  }
+}

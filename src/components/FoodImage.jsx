@@ -16,7 +16,7 @@ function FoodImage({ image, name, category }) {
     return (
       <div className="food-image placeholder">
         <span className="initials">{getInitials(name)}</span>
-        <span className="cat">{category}</span>
+        {category && <span className="cat">{category}</span>}
       </div>
     );
   }

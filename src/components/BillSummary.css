@@ -1,0 +1,35 @@
+.bill {
+  display: grid;
+  gap: 10px;
+
+  .line {
+    display: flex;
+    justify-content: space-between;
+    color: var(--muted);
+    font-size: 14px;
+
+    span:last-child { color: var(--ink); font-weight: 500; }
+
+    &.discount span:last-child { color: var(--success); }
+
+    &.total {
+      margin-top: 6px;
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+      color: var(--ink);
+      font-size: 18px;
+      font-weight: 800;
+
+      span:last-child { font-weight: 800; }
+    }
+  }
+
+  .note {
+    margin: 0;
+    padding: 8px 12px;
+    border-radius: 10px;
+    background: var(--primary-soft);
+    color: var(--primary);
+    font-size: 13px;
+  }
+}

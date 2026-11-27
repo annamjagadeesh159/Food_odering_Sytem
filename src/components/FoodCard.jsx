@@ -2,55 +2,58 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import Badge from "./Badge";
 import FoodImage from "./FoodImage";
-import { HeartIcon, StarIcon, ClockIcon, FlameIcon, PlusIcon } from "./Icons";
+import { HeartIcon, PlusIcon } from "./Icons";
 import "./FoodCard.css";
 
 function FoodCard({ food, onAdd }) {
-  const { id, name, price, category, isVeg, available, rating, prepTime, spice, tag, image } = food;
+  const { id, name, price, oldPrice, category, isVeg, available, description, tag, image } = food;
   const [liked, setLiked] = useState(false);
 
   return (
     <article className={available ? "food-card" : "food-card unavailable"}>
-      <div className="photo">
-        <FoodImage image={image} name={name} category={category} />
+      <div className="media">
+        <Link to={`/food/${id}`} className="photo" aria-label={`View ${name}`}>
+          <FoodImage image={image} name={name} category={category} />
+        </Link>
 
-        <div className="badges">
-          {tag && <Badge text={tag} tone="dark" />}
-          {!available && <Badge text="Sold out" tone="red" />}
-        </div>
+        {tag && (
+          <span className="tag">
+            <Badge text={tag} tone="dark" />
+          </span>
+        )}
 
         <button
           className={liked ? "like-btn liked" : "like-btn"}
           aria-label="Save to favourites"
           onClick={() => setLiked(!liked)}
         >
-          <HeartIcon size={18} filled={liked} />
+          <HeartIcon size={16} filled={liked} />
         </button>
       </div>
 
       <div className="info">
-        <div className="title-row">
-          <h3>
-            <Link to={`/food/${id}`}>{name}</Link>
-          </h3>
-          <span className="price">₹{price}</span>
-        </div>
+        <h3>
+          <span className={isVeg ? "veg-mark veg" : "veg-mark nonveg"} />
+          <Link to={`/food/${id}`}>{name}</Link>
+        </h3>
 
-        <ul className="meta">
-          <li><ClockIcon size={14} />{prepTime} min</li>
-          <li><FlameIcon size={14} />{spice}</li>
-          <li>
-            <span className={isVeg ? "veg-mark veg" : "veg-mark nonveg"} />
-            {isVeg ? "Veg" : "Non-veg"}
-          </li>
-        </ul>
+        <p className="desc">{description}</p>
 
         <div className="bottom">
-          <span className="rating"><StarIcon size={14} />{rating}</span>
+          <div className="prices">
+            <span className="price">₹{price}</span>
+            {oldPrice > 0 && <s>₹{oldPrice}</s>}
+          </div>
 
           <button className="add-btn" disabled={!available} onClick={() => onAdd(food)}>
-            <PlusIcon size={14} />
-            Add
+            {available ? (
+              <>
+                Add
+                <PlusIcon size={14} />
+              </>
+            ) : (
+              "Sold out"
+            )}
           </button>
         </div>
       </div>

@@ -1,39 +1,31 @@
 /* =========================================================
-   GLOBAL BASE: colours, fonts, reset. Loaded once in main.jsx.
+   GLOBAL BASE: colours, font, reset. Loaded once in main.jsx.
    ========================================================= */
 :root {
-  --bg: #f2eadb;
-  --surface: #fbf7ee;
-  --green: #173a2f;
-  --green-2: #235443;
-  --ink: #1d2a25;
-  --muted: #7c8a82;
-  --line: #e4d9c5;
-  --accent: #cf4a1a;
-  --on-accent: #ffffff;
-  --btn: #173a2f;
-  --on-btn: #ffffff;
-  --star: #e9a319;
-  --glow: rgba(207, 74, 26, 0.35);
+  --bg: #f4f7fe;
+  --surface: #ffffff;
+  --ink: #0f172a;
+  --muted: #64748b;
+  --line: #e3e9f5;
+  --primary: #1f5cff;
+  --primary-dark: #1648d1;
+  --primary-soft: #eaf0ff;
+  --navy: #0d1b3e;
+  --star: #f59e0b;
+  --success: #16a34a;
+  --success-soft: #e8f8ee;
+  --danger: #dc2626;
+  --radius: 16px;
+  --shadow: 0 8px 28px rgba(31, 92, 255, 0.08);
   --maxw: 1180px;
-  --font-head: "Playfair Display", Georgia, serif;
-  --font-body: "Inter", system-ui, sans-serif;
-}
+  --font: "Inter", system-ui, sans-serif;
 
-/* Optional dark theme: add data-theme="dark" on the <html> tag */
-[data-theme="dark"] {
-  --bg: #07120e;
-  --surface: #0f1f19;
-  --green: #0c1f19;
-  --green-2: #123629;
-  --ink: #e9f3ec;
-  --muted: #8fa89b;
-  --line: rgba(255, 255, 255, 0.12);
-  --accent: #b8f45a;
-  --on-accent: #0b1a12;
-  --btn: #b8f45a;
-  --on-btn: #0b1a12;
-  --glow: rgba(184, 244, 90, 0.25);
+  /* TEMPORARY aliases: pages not restyled yet (Part 2) still use these names */
+  --accent: var(--primary);
+  --on-accent: #ffffff;
+  --green: var(--navy);
+  --font-head: var(--font);
+  --glow: rgba(31, 92, 255, 0.25);
 }
 
 * { box-sizing: border-box; }
@@ -42,16 +34,24 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--ink);
-  font-family: var(--font-body);
+  font-family: var(--font);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3, h4 { font-family: var(--font-head); }
+h1, h2, h3, h4 {
+  margin: 0;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+a { color: inherit; }
 
 button, input, select { font: inherit; }
+button { cursor: pointer; }
 
 :focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--primary);
   outline-offset: 2px;
 }

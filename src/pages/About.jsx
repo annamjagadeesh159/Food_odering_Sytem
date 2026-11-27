@@ -8,29 +8,22 @@ const values = [
 
 function About() {
   return (
-    <>
-      <section className="hero">
-        <div className="inner">
-          <p className="eyebrow">Our story</p>
-          <h1>Good food, made simple.</h1>
-          <p className="lead">
-            We connect hungry customers with great local kitchens and get every order
-            to the door fresh and on time.
-          </p>
-        </div>
-      </section>
+    <div className="container about-page">
+      <h1 className="page-title">About us</h1>
+      <p className="lead">
+        We connect hungry customers with great local kitchens and get every order to
+        the door fresh and on time.
+      </p>
 
-      <div className="container about-page">
-        <div className="values">
-          {values.map((value) => (
-            <article key={value.title} className="value">
-              <h3>{value.title}</h3>
-              <p>{value.text}</p>
-            </article>
-          ))}
-        </div>
+      <div className="values">
+        {values.map((value) => (
+          <article key={value.title} className="card">
+            <h3>{value.title}</h3>
+            <p>{value.text}</p>
+          </article>
+        ))}
       </div>
-    </>
+    </div>
   );
 }
 

@@ -1,0 +1,23 @@
+.promo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 24px 28px;
+  border-radius: var(--radius);
+  background: linear-gradient(120deg, #fff1e0, #ffe0bd);
+
+  h2 { margin-bottom: 2px; font-size: 24px; }
+  p  { margin: 0 0 14px; color: #7a4a14; }
+
+  .big {
+    color: rgba(245, 158, 11, 0.45);
+    font-size: 64px;
+    font-weight: 800;
+    line-height: 1;
+
+    @media (max-width: 560px) {
+      display: none;
+    }
+  }
+}

@@ -1,12 +1,118 @@
-      h3 {
-        margin: 0;
-        font-size: 18px;
-        line-height: 1.25;
+.food-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  transition: transform 0.2s, box-shadow 0.2s;
 
-        a {
-          color: inherit;
-          text-decoration: none;
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+  }
 
-          &:hover { color: var(--accent); }
-        }
+  &.unavailable {
+    .photo { filter: grayscale(0.9); opacity: 0.65; }
+  }
+
+  .media {
+    position: relative;
+
+    .photo {
+      display: block;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      background: var(--primary-soft);
+      font-size: 14px;
+    }
+
+    .tag {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+    }
+
+    .like-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      display: grid;
+      place-items: center;
+      width: 32px;
+      height: 32px;
+      border: none;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.95);
+      color: var(--ink);
+
+      &:hover, &.liked { color: var(--danger); }
+    }
+  }
+
+  .info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 4px;
+    padding: 14px;
+
+    h3 {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 15px;
+
+      a {
+        text-decoration: none;
+
+        &:hover { color: var(--primary); }
       }
+    }
+
+    .desc {
+      display: -webkit-box;
+      min-height: 2.8em;
+      margin: 0;
+      overflow: hidden;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.4;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
+    .bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: auto;
+      padding-top: 12px;
+
+      .prices {
+        display: flex;
+        align-items: baseline;
+        gap: 6px;
+
+        .price { font-size: 17px; font-weight: 800; }
+        s { color: var(--muted); font-size: 12px; }
+      }
+
+      .add-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 8px 14px;
+        border: none;
+        border-radius: 10px;
+        background: var(--primary);
+        color: #fff;
+        font-size: 13px;
+        font-weight: 600;
+
+        &:hover:not(:disabled) { background: var(--primary-dark); }
+        &:disabled { background: #e2e8f0; color: var(--muted); cursor: not-allowed; }
+      }
+    }
+  }
+}

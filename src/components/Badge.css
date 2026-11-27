@@ -1,13 +1,15 @@
 .badge {
-  padding: 4px 11px;
+  display: inline-block;
+  padding: 4px 10px;
   border-radius: 999px;
-  background: #6b7a73;
-  color: #fff;
+  background: var(--primary-soft);
+  color: var(--primary);
   font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.02em;
 
-  &.dark   { background: var(--green); }
-  &.orange { background: var(--accent); color: var(--on-accent); }
-  &.red    { background: #c0392b; }
+  &.green  { background: var(--success-soft); color: var(--success); }
+  &.orange { background: #fff4e0; color: #b45309; }
+  &.red    { background: #fee2e2; color: var(--danger); }
+  &.gray   { background: #eef1f6; color: var(--muted); }
+  &.dark   { background: var(--navy); color: #fff; }
 }

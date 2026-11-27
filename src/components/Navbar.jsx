@@ -1,11 +1,12 @@
 import { NavLink, Link, useNavigate } from "react-router-dom";
-import { SearchIcon, BagIcon } from "./Icons";
+import { SearchIcon, BagIcon, UtensilsIcon } from "./Icons";
 import "./Navbar.css";
 
 const links = [
   { to: "/", label: "Home", end: true },
   { to: "/menu", label: "Menu" },
   { to: "/about", label: "About" },
+  { to: "/orders", label: "Track Order" },
 ];
 
 function navClass({ isActive }) {
@@ -23,8 +24,8 @@ function Navbar({ cartCount, user, onLogout }) {
   return (
     <header className="navbar">
       <Link to="/" className="brand">
-        <span className="logo">F</span>
-        <span className="brand-name">FOODAPP</span>
+        <span className="logo"><UtensilsIcon size={18} /></span>
+        FoodApp
       </Link>
 
       <nav className="nav-links">
@@ -33,12 +34,6 @@ function Navbar({ cartCount, user, onLogout }) {
             {link.label}
           </NavLink>
         ))}
-
-        {user && (
-          <NavLink to="/orders" className={navClass}>
-            Orders
-          </NavLink>
-        )}
       </nav>
 
       <div className="nav-actions">
@@ -59,9 +54,7 @@ function Navbar({ cartCount, user, onLogout }) {
             </button>
           </>
         ) : (
-          <Link to="/login" className="btn primary small">
-            Log in
-          </Link>
+          <Link to="/login" className="btn primary small">Log in</Link>
         )}
       </div>
     </header>

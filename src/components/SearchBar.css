@@ -1,36 +1,62 @@
-/* Rounded search box that sits inside the dark hero */
-.search-box {
+.search-bar {
   display: flex;
   align-items: center;
-  gap: 12px;
-  max-width: 580px;
-  margin-top: 28px;
-  padding: 6px 10px 6px 22px;
-  border-radius: 999px;
-  background: #fff;
-  color: #7c8a82;
+  gap: 10px;
+  padding: 6px 6px 6px 16px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  color: var(--muted);
+  box-shadow: var(--shadow);
+
+  &:focus-within { border-color: var(--primary); }
 
   input {
     flex: 1;
-    padding: 12px 0;
+    min-width: 0;
+    padding: 10px 0;
     border: none;
     outline: none;
     background: transparent;
-    color: #1d2a25;
+    color: var(--ink);
     font-size: 15px;
   }
 
   .clear {
     display: grid;
     place-items: center;
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
     border: none;
     border-radius: 50%;
-    background: #eee;
-    color: #444;
-    cursor: pointer;
+    background: #eef1f6;
+    color: var(--muted);
 
-    &:hover { background: #ddd; }
+    &:hover { background: #e2e8f0; }
+  }
+
+  .go {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border: none;
+    border-radius: 12px;
+    background: var(--primary);
+    color: #fff;
+
+    &:hover { background: var(--primary-dark); }
+  }
+
+  &.large {
+    max-width: 520px;
+    padding: 8px 8px 8px 20px;
+    border-radius: 999px;
+
+    .go {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+    }
   }
 }

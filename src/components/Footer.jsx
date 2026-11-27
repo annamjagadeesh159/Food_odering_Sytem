@@ -1,30 +1,34 @@
+import { Link } from "react-router-dom";
+import { UtensilsIcon } from "./Icons";
 import "./Footer.css";
-
-const columns = [
-  { title: "Explore", items: ["Home", "Menu", "About", "Best sellers"] },
-  { title: "Company", items: ["About us", "Careers", "Press", "Partners"] },
-  { title: "Legal", items: ["Terms of service", "Privacy policy", "Allergen info"] },
-];
 
 function Footer() {
   return (
     <footer className="footer">
       <div className="footer-inner">
         <div className="brand-col">
-          <p className="footer-brand">FOODAPP</p>
+          <p className="brand">
+            <span className="logo"><UtensilsIcon size={16} /></span>
+            FoodApp
+          </p>
           <p>Restaurant-quality meals, cooked to order and delivered to your door.</p>
         </div>
 
-        {columns.map((col) => (
-          <div key={col.title} className="col">
-            <h4>{col.title}</h4>
-            <ul>
-              {col.items.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-          </div>
-        ))}
+        <div className="col">
+          <h4>Explore</h4>
+          <ul>
+            <li><Link to="/">Home</Link></li>
+            <li><Link to="/menu">Menu</Link></li>
+            <li><Link to="/orders">Track order</Link></li>
+          </ul>
+        </div>
+
+        <div className="col">
+          <h4>Company</h4>
+          <ul>
+            <li><Link to="/about">About us</Link></li>
+          </ul>
+        </div>
 
         <div className="col">
           <h4>Contact</h4>

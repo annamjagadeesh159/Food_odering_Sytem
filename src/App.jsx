@@ -15,50 +15,84 @@ import Orders from "./pages/Orders";
 import OrderDetails from "./pages/OrderDetails";
 import NotFound from "./pages/NotFound";
 import Dashboard from "./pages/admin/Dashboard";
+import { calcBill, COUPONS } from "./utils/pricing";
 import "./App.css";
 
 function App() {
   // ---------- STATE ----------
   const [cart, setCart] = useState([]);
-  const [user, setUser] = useState(null); // null = logged out. TEMPORARY: Day 5 uses Context, Day 14 uses real login
+  const [coupon, setCoupon] = useState("");
+  const [user, setUser] = useState(null); // TEMPORARY: Day 5 uses Context, Day 14 uses real login
 
   // ---------- CART ACTIONS ----------
-  function addToCart(food) {
+  // options is optional: { size, extras, unitPrice, qty }  (the Food details page sends it)
+  function addToCart(food, options = {}) {
+    const { size = "Regular", extras = [], unitPrice = food.price, qty = 1 } = options;
+    const variant = [size, ...extras].join(", ");
+    const key = `${food.id}-${variant}`;
+
     setCart((prev) => {
-      const existing = prev.find((item) => item.id === food.id);
+      const existing = prev.find((item) => item.key === key);
 
       if (existing) {
         return prev.map((item) =>
-          item.id === food.id ? { ...item, qty: item.qty + 1 } : item
+          item.key === key ? { ...item, qty: item.qty + qty } : item
         );
       }
-      return [...prev, { id: food.id, name: food.name, price: food.price, qty: 1 }];
+
+      return [
+        ...prev,
+        {
+          key,
+          id: food.id,
+          name: food.name,
+          image: food.image,
+          variant,
+          price: unitPrice,
+          qty,
+        },
+      ];
     });
   }
 
-  function increaseQty(id) {
+  function increaseQty(key) {
     setCart((prev) =>
-      prev.map((item) => (item.id === id ? { ...item, qty: item.qty + 1 } : item))
+      prev.map((item) => (item.key === key ? { ...item, qty: item.qty + 1 } : item))
     );
   }
 
-  function decreaseQty(id) {
+  function decreaseQty(key) {
     setCart((prev) =>
       prev
-        .map((item) => (item.id === id ? { ...item, qty: item.qty - 1 } : item))
+        .map((item) => (item.key === key ? { ...item, qty: item.qty - 1 } : item))
         .filter((item) => item.qty > 0)
     );
   }
 
-  function removeFromCart(id) {
-    setCart((prev) => prev.filter((item) => item.id !== id));
+  function removeFromCart(key) {
+    setCart((prev) => prev.filter((item) => item.key !== key));
   }
 
   function clearCart() {
     setCart([]);
+    setCoupon("");
   }
 
-  // ---------- AUTH ACTIONS (temporary) ----------
+  // ---------- COUPON ----------
+  function applyCoupon(code) {
+    const key = code.trim().toUpperCase();
+    if (COUPONS[key]) {
+      setCoupon(key);
+      return true;
+    }
+    return false;
+  }
+
+  function removeCoupon() {
+    setCoupon("");
+  }
+
+  // ---------- AUTH (temporary) ----------
   function login(userData) {
     setUser(userData);
   }
@@ -69,12 +103,11 @@ function App() {
 
   // ---------- DERIVED VALUES ----------
   const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
-  const totalPrice = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+  const bill = calcBill(cart, coupon);
 
   // ---------- ROUTES ----------
   return (
     <Routes>
-      {/* Customer pages share Navbar + Footer through CustomerLayout */}
       <Route
         element={<CustomerLayout cartCount={totalItems} user={user} onLogout={logout} />}
       >
@@ -87,7 +120,10 @@ function App() {
           element={
             <CartPage
               items={cart}
-              total={totalPrice}
+              bill={bill}
+              coupon={coupon}
+              onApplyCoupon={applyCoupon}
+              onRemoveCoupon={removeCoupon}
               onIncrease={increaseQty}
               onDecrease={decreaseQty}
               onRemove={removeFromCart}
@@ -98,11 +134,10 @@ function App() {
         <Route path="/login" element={<Login onLogin={login} />} />
         <Route path="/register" element={<Register />} />
 
-        {/* Pages that need a logged-in user */}
         <Route element={<ProtectedRoute user={user} />}>
           <Route
             path="/checkout"
-            element={<Checkout items={cart} total={totalPrice} onPlaceOrder={clearCart} />}
+            element={<Checkout items={cart} total={bill.total} onPlaceOrder={clearCart} />}
           />
           <Route path="/orders" element={<Orders />} />
           <Route path="/orders/:id" element={<OrderDetails />} />
@@ -111,7 +146,6 @@ function App() {
         <Route path="*" element={<NotFound />} />
       </Route>
 
-      {/* Admin pages: logged in AND role must be admin */}
       <Route element={<ProtectedRoute user={user} role="admin" />}>
         <Route element={<AdminLayout onLogout={logout} />}>
           <Route path="/admin" element={<Dashboard />} />

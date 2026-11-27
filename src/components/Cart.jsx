@@ -1,13 +1,19 @@
 import { Link } from "react-router-dom";
-import { MinusIcon, PlusIcon, TrashIcon } from "./Icons";
+import FoodImage from "./FoodImage";
+import QuantityStepper from "./QuantityStepper";
+import CouponBox from "./CouponBox";
+import BillSummary from "./BillSummary";
+import { TrashIcon, ArrowRightIcon } from "./Icons";
 import "./Cart.css";
 
-const FREE_DELIVERY_AT = 500;
-
-function Cart({ items, total, onIncrease, onDecrease, onRemove, onClear }) {
+function Cart({
+  items, bill, coupon,
+  onApplyCoupon, onRemoveCoupon,
+  onIncrease, onDecrease, onRemove, onClear,
+}) {
   if (items.length === 0) {
     return (
-      <div className="cart-empty">
+      <div className="cart-empty card">
         <h2>Your cart is empty</h2>
         <p>Add a few dishes from the menu and they will appear here.</p>
         <Link to="/menu" className="btn primary">Browse the menu</Link>
@@ -15,67 +21,48 @@ function Cart({ items, total, onIncrease, onDecrease, onRemove, onClear }) {
     );
   }
 
-  const remaining = FREE_DELIVERY_AT - total;
-  const progress = Math.min(100, (total / FREE_DELIVERY_AT) * 100);
-
   return (
     <div className="cart">
-      <ul className="cart-items">
+      <div className="cart-list">
         {items.map((item) => (
-          <li key={item.id} className="cart-row">
-            <div className="cart-info">
+          <article key={item.key} className="cart-item">
+            <div className="thumb">
+              <FoodImage image={item.image} name={item.name} />
+            </div>
+
+            <div className="info">
               <h3>{item.name}</h3>
-              <p>₹{item.price} each</p>
+              <p>{item.variant}</p>
+              <span className="price">₹{item.price}</span>
             </div>
 
-            <div className="stepper">
-              <button aria-label="Decrease quantity" onClick={() => onDecrease(item.id)}>
-                <MinusIcon size={14} />
-              </button>
-              <span>{item.qty}</span>
-              <button aria-label="Increase quantity" onClick={() => onIncrease(item.id)}>
-                <PlusIcon size={14} />
-              </button>
-            </div>
-
-            <span className="line-total">₹{item.price * item.qty}</span>
+            <QuantityStepper
+              value={item.qty}
+              onDecrease={() => onDecrease(item.key)}
+              onIncrease={() => onIncrease(item.key)}
+            />
 
             <button
               className="remove"
               aria-label={`Remove ${item.name}`}
-              onClick={() => onRemove(item.id)}
+              onClick={() => onRemove(item.key)}
             >
               <TrashIcon size={18} />
             </button>
-          </li>
+          </article>
         ))}
-      </ul>
 
-      <aside className="summary">
-        <h3>Order summary</h3>
+        <button className="clear" onClick={onClear}>Clear cart</button>
+      </div>
 
-        <div className="line">
-          <span>Subtotal</span>
-          <span>₹{total}</span>
-        </div>
+      <aside className="summary card">
+        <CouponBox applied={coupon} onApply={onApplyCoupon} onRemove={onRemoveCoupon} />
+        <BillSummary bill={bill} />
 
-        <div className="progress">
-          <span style={{ width: `${progress}%` }} />
-        </div>
-
-        {remaining <= 0 ? (
-          <p className="note ok">You qualify for free delivery.</p>
-        ) : (
-          <p className="note">Add ₹{remaining} more for free delivery.</p>
-        )}
-
-        <div className="line total">
-          <span>Total</span>
-          <span>₹{total}</span>
-        </div>
-
-        <Link to="/checkout" className="btn primary">Proceed to checkout</Link>
-        <button className="btn ghost-dark" onClick={onClear}>Clear cart</button>
+        <Link to="/checkout" className="btn primary block">
+          Proceed to Checkout
+          <ArrowRightIcon size={16} />
+        </Link>
       </aside>
     </div>
   );

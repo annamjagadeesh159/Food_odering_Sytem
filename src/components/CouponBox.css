@@ -1,0 +1,55 @@
+.coupon {
+  display: grid;
+  gap: 10px;
+
+  h4 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+
+    svg { color: var(--primary); }
+  }
+
+  .row {
+    display: flex;
+    gap: 10px;
+
+    input {
+      flex: 1;
+      min-width: 0;
+      padding: 10px 14px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--bg);
+      color: var(--ink);
+      text-transform: uppercase;
+
+      &:focus { border-color: var(--primary); outline: none; }
+    }
+  }
+
+  .error { margin: 0; color: var(--danger); font-size: 13px; }
+  .hint  { margin: 0; color: var(--muted); font-size: 12.5px; }
+
+  &.applied {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: var(--success-soft);
+    color: var(--success);
+    font-size: 14px;
+
+    .name { display: flex; align-items: center; gap: 8px; }
+
+    button {
+      border: none;
+      background: none;
+      color: var(--danger);
+      font-size: 13px;
+      font-weight: 600;
+    }
+  }
+}

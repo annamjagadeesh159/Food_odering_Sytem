@@ -4,8 +4,7 @@ import "./CartPage.css";
 function CartPage(props) {
   return (
     <div className="container cart-page">
-      <p className="eyebrow">Your order</p>
-      <h1>Cart</h1>
+      <h1 className="page-title">Your Cart</h1>
       <Cart {...props} />
     </div>
   );
